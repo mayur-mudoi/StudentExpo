@@ -3,6 +3,7 @@ import { account, databases } from '../lib/appwrite';
 import { ID, Models, Permission, Query, Role } from 'appwrite';
 import { DataProvider, useData } from './DataContext';
 import DeviceInfo from 'react-native-device-info';
+import { router } from 'expo-router';
 
 interface AuthContextType {
   user: Models.User<Models.Preferences> | null;
@@ -38,7 +39,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const currentUser = await account.get();
       console.log('✅ Login successful:', currentUser);
 
-      if (currentUser.prefs.role !== 'student' && currentUser.prefs.role !== 'admin') {
+      if (currentUser.prefs.role !== 'student') {
         await account.deleteSession('current');
         throw new Error('Access denied. You are not authorized to use this app.');
       }
@@ -121,11 +122,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
 
-      if(currentUser.prefs.role === 'admin'){
+      if(currentUser.prefs.role === 'student'){
         await fetchCourseData();
         await fetchStudentsDataAll();
         await fetchAttendanceData();
-        console.log('Admin has logged in');
+        console.log('Student has logged in');
       }
 
       setUser(currentUser);
@@ -144,13 +145,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(null);
       setAttendanceLogs(null);
       setAuthError(null);
+      router.replace('/auth/login'); // Redirect to login
       console.log('✅ Logout successful');
     } catch (err: any) {
       console.error('❌ Logout failed:', err.message);
-      // Even if logout fails, clear local state
+      // Even if logout fails, clear local state and redirect
       setUser(null);
       setAttendanceLogs(null);
       setAuthError(null);
+      router.replace('/auth/login');
     }
   };
 

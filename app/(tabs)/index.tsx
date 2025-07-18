@@ -33,6 +33,23 @@ export default function Home() {
     }
   }, [user, dataFetched, fetchStudentData, fetchCourseData, fetchAttendanceData]);
 
+  useEffect(() => {
+    // Add a small delay to ensure auth context is properly initialized
+    const timer = setTimeout(() => {
+      if (user && user.prefs?.role) {
+        if (user.prefs.role === 'student') {
+          router.replace('/(tabs)');
+        } else {
+          // Handle other roles or redirect to login
+          router.replace('/auth/login');
+        }
+      } else {
+        router.replace('/auth/login');
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [user]);
   const getAttendanceColor = (percentage: number) => {
     if (percentage >= 85) return '#10b981';
     if (percentage >= 75) return '#f59e0b';

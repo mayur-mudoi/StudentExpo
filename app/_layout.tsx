@@ -38,10 +38,7 @@ export default function RootLayout() {
           <Stack.Screen name="auth/login" />
           <Stack.Screen name="auth/forgot-password" />
           <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="(teacher)" />
-          <Stack.Screen name="(admin)" />
           <Stack.Screen name="subject/[id]" />
-          <Stack.Screen name="teacher/course/[id]" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
