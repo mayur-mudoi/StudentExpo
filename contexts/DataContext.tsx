@@ -8,6 +8,8 @@ interface DataContextType {
   studentData: Models.Document | null;
   setStudentData: React.Dispatch<React.SetStateAction<Models.Document | null>>;
   fetchStudentData: () => Promise<void>;
+  fetchStudentsDataAll: () => Promise<void>;
+  setStudentsDataAll: React.Dispatch<React.SetStateAction<Models.Document[] | null>>;
 
   courseData: Models.Document[] | null;
   setCourseData: React.Dispatch<React.SetStateAction<Models.Document[] | null>>;
@@ -57,6 +59,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [locationId, setLocationId] = useState<string | null>(null);
   const [hasExistingLocation, setHasExistingLocation] = useState(false);
   const [isLocationLoading, setIsLocationLoading] = useState(false);
+  const [studentsDataAll, setStudentsDataAll] = useState<Models.Document[] | null>(null);
 
   // Add refs to prevent duplicate requests
   const fetchingRef = useRef<{ student: boolean; course: boolean; attendance: boolean }>({
@@ -128,7 +131,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       fetchingRef.current.attendance = false;
     }
   }, []);
-
+ const fetchStudentsDataAll = async () => {
+    try {
+      const response = await databases.listDocuments(
+        DB_ID,
+        STUDENT_COLLECTION_ID,
+      );
+      console.log('Student Response', response);
+      setStudentsDataAll(response.documents);
+    } catch (err) {
+      console.error('❌ Failed to fetch Students data:', err);
+      setStudentsDataAll(null);
+    }
+  };
   const markPresent = (studentId: string, date: string) => {
     setManualAttendance(prev => ({
       ...prev,
@@ -314,6 +329,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       fetchLocation,
       saveLocation,
       handleUpdateLocation,
+      fetchStudentsDataAll,
+      setStudentsDataAll
     }}>
       {children}
     </DataContext.Provider>
