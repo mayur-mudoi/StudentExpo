@@ -74,7 +74,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await databases.listDocuments(
         DB_ID,
         STUDENT_COLLECTION_ID,
-        [Query.equal('userId', currentUser.$id)]
       );
 
       if (response.total > 0) {
@@ -206,7 +205,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await databases.listDocuments(
         DB_ID,
         LOCATION_COLLECTION_ID,
-        [Query.equal('UserID', currentUser.$id)]
       );
 
       if (response.total > 0) {

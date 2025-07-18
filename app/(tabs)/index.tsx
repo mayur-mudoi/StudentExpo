@@ -442,10 +442,11 @@ const styles = StyleSheet.create({
   },
   weekDays: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     marginBottom: 12,
   },
   weekDay: {
+    width: '14.28%',
+    textAlign: 'center',
     fontSize: Math.max(10, width * 0.025),
     fontFamily: 'Inter-Medium',
     color: '#64748b',
@@ -453,16 +454,15 @@ const styles = StyleSheet.create({
   daysGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start', // changed from 'space-around' to 'flex-start'
     marginBottom: 16,
   },
   calendarDay: {
-    width: Math.max(40, width * 0.08),
-    height: Math.max(40, width * 0.08),
+    width: '14.28%',
+    aspectRatio: 1,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 4,
+    marginVertical: 2,
   },
   presentDay: {
     backgroundColor: '#10b981',
@@ -514,10 +514,10 @@ const styles = StyleSheet.create({
     color: '#64748b',
   },
   emptyDay: {
-    width: Math.max(40, width * 0.08),
-    height: Math.max(40, width * 0.08),
+    width: '14.28%',
+    aspectRatio: 1,
     borderRadius: 10,
     backgroundColor: '#f0f0f0',
-    marginVertical: 4,
+    marginVertical: 2,
   },
 });
